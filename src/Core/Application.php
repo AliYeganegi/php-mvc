@@ -31,6 +31,9 @@ class Application
         if (file_exists(BASE_PATH . '/config/routes.php')) {
             $this->routes = require_once BASE_PATH . '/config/routes.php';
         }
+
+        View::setViewsPath(dirname(__DIR__, 2) . '/views');
+        View::setLayout('default');
     }
     
     /**

@@ -2,13 +2,21 @@
 // src/Controllers/HomeController.php
 namespace App\Controllers;
 
-use App\Core\Request;
+
+use App\Core\View;
 use App\Core\Response;
+use App\Models\UserModel;
 
 class HomeController
 {
-    public function index(Request $request)
+    public function index(): Response
     {
-        return '<h1>Welcome to Your MVC Framework</h1><p>This is the homepage.</p>';
+        $view = new View('home.index', [
+            'title' => 'Welcome to my MVC framework',
+            'message' => 'Hello world!'
+        ]);
+        
+        // Return the rendered view with a 200 status code
+        return new Response($view->render(), 200);
     }
 }
