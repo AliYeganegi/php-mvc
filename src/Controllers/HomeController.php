@@ -2,7 +2,7 @@
 // src/Controllers/HomeController.php
 namespace App\Controllers;
 
-
+use App\Core\Database\QueryBuilder;
 use App\Core\View;
 use App\Core\Response;
 use App\Models\UserModel;
@@ -11,12 +11,17 @@ class HomeController
 {
     public function index(): Response
     {
+        $users = QueryBuilder::table('users')
+            ->select(['name'])
+            ->get();
+
+            var_dump($users);
+
         $view = new View('home.index', [
-            'title' => 'Welcome to my MVC framework',
+            'title' => 'salam',
             'message' => 'Hello world!'
         ]);
-        
-        // Return the rendered view with a 200 status code
+
         return new Response($view->render(), 200);
     }
 }

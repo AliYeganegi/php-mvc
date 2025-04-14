@@ -2,7 +2,7 @@
 
 return [
     'GET' => [
-        '' => 'HomeController@index',
+        '/' => 'HomeController@index',
         'index' => 'HomeController@index'
     ],
     'POST' => [],

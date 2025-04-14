@@ -1,27 +1,15 @@
 <?php
-// src/Core/Application.php
+
 namespace App\Core;
 
 class Application
 {
-    /**
-     * @var Request
-     */
     private $request;
     
-    /**
-     * @var Response
-     */
     private $response;
     
-    /**
-     * @var array
-     */
     private $routes = [];
     
-    /**
-     * Create a new application instance
-     */
     public function __construct()
     {
         $this->request = new Request();
@@ -36,50 +24,35 @@ class Application
         View::setLayout('default');
     }
     
-    /**
-     * Run the application
-     */
     public function run()
     {
         try {
-            // Get request path and method
             $path = $this->request->getPath();
             $method = $this->request->getMethod();
             
-            // Find matching route
             $handler = $this->findRoute($path, $method);
             
-            if ($handler) {
-                // Execute middleware (will be implemented in future steps)
-                
-                // Execute route handler
+            if ($handler) {                
                 $response = $this->executeHandler($handler);
                 
-                // If response is a Response object, send it
                 if ($response instanceof Response) {
                     $response->send();
                 } else {
-                    // Convert to Response and send
                     $this->response->setContent($response)->send();
                 }
             } else {
-                // No route found, return 404
+                // 404 error
                 $this->response->setStatusCode(404)
-                    ->setContent('<h1>404 Not Found</h1><p>The requested page was not found.</p>')
+                    ->setContent('<h1>404 Not Found</h1><p>Page was not found</p>')
                     ->send();
             }
         } catch (\Exception $e) {
-            // Pass to exception handler
             ErrorHandler::handleException($e);
         }
     }
     
-    /**
-     * Find a matching route for the given path and method
-     */
     private function findRoute($path, $method)
     {
-        // Simple routing for now, will be enhanced in future steps
         $path = trim($path, '/');
         $path = $path ?: 'index';
         
@@ -90,17 +63,12 @@ class Application
         return null;
     }
     
-    /**
-     * Execute a route handler
-     */
     private function executeHandler($handler)
     {
-        // If handler is a closure/function
         if (is_callable($handler)) {
             return call_user_func($handler, $this->request);
         }
         
-        // If handler is a string in format "ControllerName@method"
         if (is_string($handler) && strpos($handler, '@') !== false) {
             list($controller, $method) = explode('@', $handler);
             $controllerClass = "\\App\\Controllers\\$controller";

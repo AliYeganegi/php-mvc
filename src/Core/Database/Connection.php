@@ -4,31 +4,15 @@ namespace App\Core\Database;
 
 class Connection
 {
-    /**
-     * PDO instance
-     * @var \PDO
-     */
     protected static $pdo = null;
     
-    /**
-     * Database configuration
-     * @var array
-     */
     protected static $config = [];
-    
-    /**
-     * Set database configuration
-     * @param array $config
-     */
+
     public static function setConfig(array $config): void
     {
         self::$config = $config;
     }
-    
-    /**
-     * Get PDO connection instance
-     * @return \PDO
-     */
+
     public static function getPDO(): \PDO
     {
         if (self::$pdo === null) {
@@ -37,11 +21,7 @@ class Connection
         
         return self::$pdo;
     }
-    
-    /**
-     * Connect to the database
-     * @throws \Exception If connection fails
-     */
+
     protected static function connect(): void
     {
         $driver = self::$config['driver'] ?? 'mysql';
@@ -70,25 +50,16 @@ class Connection
         }
     }
     
-    /**
-     * Begin a transaction
-     */
     public static function beginTransaction(): bool
     {
         return self::getPDO()->beginTransaction();
     }
     
-    /**
-     * Commit a transaction
-     */
     public static function commit(): bool
     {
         return self::getPDO()->commit();
     }
-    
-    /**
-     * Rollback a transaction
-     */
+
     public static function rollBack(): bool
     {
         return self::getPDO()->rollBack();

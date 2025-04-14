@@ -1,27 +1,18 @@
 <?php
-// src/Core/ErrorHandler.php
+
 namespace App\Core;
 
 class ErrorHandler
 {
-    /**
-     * Register error and exception handlers
-     */
     public static function register()
     {
-        // Set error handler
         set_error_handler([self::class, 'handleError']);
         
-        // Set exception handler
         set_exception_handler([self::class, 'handleException']);
         
-        // Register shutdown function
         register_shutdown_function([self::class, 'handleShutdown']);
     }
     
-    /**
-     * Handle PHP errors
-     */
     public static function handleError($level, $message, $file, $line)
     {
         if (!(error_reporting() & $level)) {
@@ -31,9 +22,6 @@ class ErrorHandler
         throw new \ErrorException($message, 0, $level, $file, $line);
     }
     
-    /**
-     * Handle exceptions
-     */
     public static function handleException($exception)
     {
         $response = new Response();
@@ -62,9 +50,6 @@ class ErrorHandler
         $response->send();
     }
     
-    /**
-     * Handle fatal errors
-     */
     public static function handleShutdown()
     {
         $error = error_get_last();

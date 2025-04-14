@@ -6,49 +6,21 @@ use App\Core\Database\QueryBuilder;
 
 abstract class Model
 {
-    /**
-     * The table associated with the model
-     * @var string
-     */
     protected $table;
-    
-    /**
-     * The primary key
-     * @var string
-     */
+
     protected $primaryKey = 'id';
     
-    /**
-     * Indicates if the model has timestamps
-     * @var bool
-     */
     protected $timestamps = true;
     
-    /**
-     * The model's attributes
-     * @var array
-     */
     protected $attributes = [];
-    
-    /**
-     * The attributes that are mass assignable
-     * @var array
-     */
+
     protected $fillable = [];
-    
-    /**
-     * Constructor
-     * @param array $attributes
-     */
+
     public function __construct(array $attributes = [])
     {
         $this->fill($attributes);
     }
     
-    /**
-     * Get the table name
-     * @return string
-     */
     public function getTable(): string
     {
         if ($this->table) {

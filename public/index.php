@@ -1,11 +1,13 @@
 <?php
 
-//application's root path
+use App\Core\Application;
+
+// root path
 define('BASE_PATH', dirname(__DIR__));
 
-// load 
+// load bootstrap
 require_once BASE_PATH . '/src/Core/Bootstrap.php';
 
-// starting point
-$app = new \App\Core\Application();
+// start app
+$app = new  Application();
 $app->run();
