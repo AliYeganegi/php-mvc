@@ -34,11 +34,6 @@ abstract class Model
         return $tableName . 's';
     }
     
-    /**
-     * Fill the model with attributes
-     * @param array $attributes
-     * @return $this
-     */
     public function fill(array $attributes): self
     {
         foreach ($attributes as $key => $value) {
@@ -49,80 +44,42 @@ abstract class Model
         
         return $this;
     }
-    
-    /**
-     * Set an attribute
-     * @param string $key
-     * @param mixed $value
-     */
+
     public function setAttribute(string $key, $value): void
     {
         $this->attributes[$key] = $value;
     }
-    
-    /**
-     * Get an attribute
-     * @param string $key
-     * @return mixed|null
-     */
+
     public function getAttribute(string $key)
     {
         return $this->attributes[$key] ?? null;
     }
-    
-    /**
-     * Get all attributes
-     * @return array
-     */
+
     public function getAttributes(): array
     {
         return $this->attributes;
     }
-    
-    /**
-     * Magic getter
-     * @param string $key
-     * @return mixed|null
-     */
+
     public function __get(string $key)
     {
         return $this->getAttribute($key);
     }
-    
-    /**
-     * Magic setter
-     * @param string $key
-     * @param mixed $value
-     */
+
     public function __set(string $key, $value): void
     {
         $this->setAttribute($key, $value);
     }
-    
-    /**
-     * Check if an attribute exists
-     * @param string $key
-     * @return bool
-     */
+
     public function __isset(string $key): bool
     {
         return isset($this->attributes[$key]);
     }
-    
-    /**
-     * Create a new query builder instance for the model
-     * @return QueryBuilder
-     */
+
     public function newQuery(): QueryBuilder
     {
         return new QueryBuilder($this->getTable());
     }
-    
-    /**
-     * Find a model by its primary key
-     * @param int|string $id
-     * @return static|null
-     */
+
     public static function find($id): ?self
     {
         $instance = new static();
@@ -130,11 +87,7 @@ abstract class Model
         
         return $result ? (new static())->fill($result) : null;
     }
-    
-    /**
-     * Get all models
-     * @return array
-     */
+
     public static function all(): array
     {
         $instance = new static();
@@ -142,12 +95,7 @@ abstract class Model
         
         return array_map(fn($attributes) => (new static())->fill($attributes), $results);
     }
-    
-    /**
-     * Create a new model with attributes
-     * @param array $attributes
-     * @return static
-     */
+
     public static function create(array $attributes): self
     {
         $instance = new static($attributes);
@@ -155,16 +103,11 @@ abstract class Model
         
         return $instance;
     }
-    
-    /**
-     * Save the model
-     * @return bool
-     */
+
     public function save(): bool
     {
         $attributes = $this->getAttributes();
         
-        // Add timestamps if needed
         if ($this->timestamps) {
             $now = date('Y-m-d H:i:s');
             
@@ -197,11 +140,7 @@ abstract class Model
         
         return false;
     }
-    
-    /**
-     * Delete the model
-     * @return bool
-     */
+
     public function delete(): bool
     {
         if (empty($this->attributes[$this->primaryKey])) {
@@ -214,14 +153,7 @@ abstract class Model
             
         return $affected > 0;
     }
-    
-    /**
-     * Start a where query
-     * @param string $column
-     * @param string $operator
-     * @param mixed $value
-     * @return QueryBuilder
-     */
+
     public static function where(string $column, string $operator, $value): QueryBuilder
     {
         $instance = new static();

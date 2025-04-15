@@ -1,60 +1,30 @@
 <?php
-// src/Core/View.php
+
 namespace App\Core;
 
 class View
 {
-    /**
-     * Path to the views directory
-     * @var string
-     */
     protected static $viewsPath = '';
-    
-    /**
-     * Layout file to use
-     * @var string|null
-     */
+
     protected static $layout = null;
     
-    /**
-     * Variables to be passed to the view
-     * @var array
-     */
     protected $vars = [];
-    
-    /**
-     * Constructor
-     * @param string $view The view name
-     * @param array $data Variables to pass to the view
-     */
+
     public function __construct(protected string $view, array $data = [])
     {
         $this->vars = $data;
     }
-    
-    /**
-     * Set the views directory path
-     * @param string $path
-     */
+
     public static function setViewsPath(string $path): void
     {
         self::$viewsPath = rtrim($path, '/\\') . DIRECTORY_SEPARATOR;
     }
-    
-    /**
-     * Set the layout to use
-     * @param string|null $layout
-     */
+
     public static function setLayout(?string $layout): void
     {
         self::$layout = $layout;
     }
-    
-    /**
-     * Render the view
-     * @return string
-     * @throws \Exception If view file doesn't exist
-     */
+
     public function render(): string
     {
         $viewFile = self::$viewsPath . str_replace('.', DIRECTORY_SEPARATOR, $this->view) . '.php';
@@ -88,12 +58,6 @@ class View
         return $content;
     }
     
-    /**
-     * Include a partial view
-     * @param string $partial
-     * @param array $data
-     * @return string
-     */
     public static function partial(string $partial, array $data = []): string
     {
         $partialFile = self::$viewsPath . 'partials' . DIRECTORY_SEPARATOR . $partial . '.php';
@@ -111,10 +75,6 @@ class View
         return ob_get_clean();
     }
     
-    /**
-     * Magic toString method to render the view when the object is used as a string
-     * @return string
-     */
     public function __toString(): string
     {
         try {

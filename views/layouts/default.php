@@ -23,7 +23,7 @@
     </main>
 
     <footer>
-        <p>&copy; <?= date('Y') ?> My PHP MVC Framework</p>
+        <p>My PHP MVC Framework</p>
     </footer>
     
     <script src="/js/app.js"></script>
