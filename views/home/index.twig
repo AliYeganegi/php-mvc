@@ -1,10 +1,9 @@
-<?php
-use App\Core\View;
-?>
+<h1>{{ title }}</h1>
+<p>{{ message }}</p>
 
 <div class="container">
-    <h2><?= $title ?></h2>
-    <p><?= $message ?></p>
+    <h2>{{ title }}</h2>
+    <p>{{ message }}</p>
     
     <div class="features">
         <h3>Features of this MVC Framework:</h3>
@@ -16,6 +15,6 @@ use App\Core\View;
             <li>Error handling</li>
         </ul>
     </div>
-    
-    <?= View::partial('sidebar', ['user' => 'Guest']) ?>
+
+    {% include 'partials/sidebar.twig' with { user: 'Guest' } %}
 </div>
