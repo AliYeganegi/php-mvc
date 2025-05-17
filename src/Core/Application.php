@@ -15,7 +15,6 @@ class Application
         $this->request = new Request();
         $this->response = new Response();
         
-        // Load routes
         if (file_exists(BASE_PATH . '/config/routes.php')) {
             $this->routes = require_once BASE_PATH . '/config/routes.php';
         }

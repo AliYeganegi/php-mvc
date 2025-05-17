@@ -17,7 +17,7 @@ class Autoloader
             return;
         }
         
-        // Get the relative class name
+        // class name
         $relativeClass = substr($class, strlen($prefix));
         
         // namespace to path

@@ -80,12 +80,10 @@ class QueryBuilder
     {
         $query = "SELECT " . implode(', ', $this->select) . " FROM {$this->table}";
         
-        // Add joins
         foreach ($this->joins as $join) {
             $query .= " {$join['type']} JOIN {$join['table']} ON {$join['first']} {$join['operator']} {$join['second']}";
         }
         
-        // Add where conditions
         if (!empty($this->where)) {
             $query .= " WHERE ";
             $conditions = [];
@@ -99,7 +97,6 @@ class QueryBuilder
             $query .= implode(' AND ', $conditions);
         }
         
-        // Add order by
         if (!empty($this->orderBy)) {
             $query .= " ORDER BY ";
             $orders = [];
@@ -111,7 +108,6 @@ class QueryBuilder
             $query .= implode(', ', $orders);
         }
         
-        // Add limit and offset
         if ($this->limit !== null) {
             $query .= " LIMIT {$this->limit}";
             
@@ -168,7 +164,6 @@ class QueryBuilder
         
         $query = "UPDATE {$this->table} SET " . implode(', ', $sets);
         
-        // Add where conditions
         if (!empty($this->where)) {
             $query .= " WHERE ";
             $conditions = [];
@@ -184,12 +179,10 @@ class QueryBuilder
         
         $statement = Connection::getPDO()->prepare($query);
         
-        // Bind the SET values
         foreach ($data as $column => $value) {
             $statement->bindValue(":set_{$column}", $value);
         }
         
-        // Bind the WHERE values
         foreach ($this->bindings as $key => $value) {
             $statement->bindValue(":{$key}", $value);
         }
@@ -202,7 +195,6 @@ class QueryBuilder
     {
         $query = "DELETE FROM {$this->table}";
         
-        // Add where conditions
         if (!empty($this->where)) {
             $query .= " WHERE ";
             $conditions = [];

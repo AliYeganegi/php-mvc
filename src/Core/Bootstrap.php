@@ -4,42 +4,34 @@ namespace App\Core;
 
 use App\Core\Database\Connection;
 use App\Core\View;
+use \App\Core\Autoloader;
+use \App\Core\ErrorHandler;
 
 // error reporting
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// global constants
 define('APP_START', microtime(true));
 define('CONFIG_PATH', BASE_PATH . '/config');
 define('VIEW_PATH', BASE_PATH . '/views');
 
-// load autoloader
 require_once BASE_PATH . '/src/Core/Autoloader.php';
 
-// Register the autoloader
-\App\Core\Autoloader::register();
-
-// Set up error handling
-\App\Core\ErrorHandler::register();
+Autoloader::register();
+ErrorHandler::register();
 
 class Bootstrap
 {
     public static function init(): void
     {
-        // load config files
         self::loadConfig();
-        
-        // set database connection
         self::initDatabase();
         
-        // set view path
         View::setViewsPath(VIEW_PATH);    
     }
     
     protected static function loadConfig(): void
     {
-        // Load database configuration if file exists
         $dbConfigFile = CONFIG_PATH . '/database.php';
         if (file_exists($dbConfigFile)) {
             $dbConfig = require $dbConfigFile;
